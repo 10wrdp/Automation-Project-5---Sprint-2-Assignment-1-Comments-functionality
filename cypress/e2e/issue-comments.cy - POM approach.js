@@ -72,7 +72,7 @@ describe('Issue comments creating, editing and deleting', () => {
             .should('not.exist');
     });
     
-    it.only('Add, edit, delete comment', () => {
+    it('Add, edit, delete comment', () => {
         IssueComment.addComment();
         IssueComment.ensureIssueTestCommentIsVisible();
         IssueComment.editComment();
