@@ -118,4 +118,66 @@ class IssueModal {
     }
 }
 
-export default new IssueModal();
+class IssueComment {
+    constructor () { 
+        this.issueCommentModal = '[data-testid="modal:issue-details"]'
+        this.commentParentClass = '.sc-lkqHmb'
+        this.commentClass = '.sc-bMVAic'
+        this.commentPlaceholder = '[placeholder="Add a comment..."]'
+        this.issueCommentId = '[data-testid="issue-comment"]'
+        this.saveButton = '[class="sc-bwzfXH dIxFno sc-esOvli keRYgb"]'
+        this.cancelButton = '[class="sc-bxivhb rljZq"]'
+        this.editButton = '[class="sc-daURTG bBZxGK"]'
+        this.deleteButton = '[class="sc-bXGyLb dvzGmn"]'
+        this.deleteConfirmationButton = '[class="sc-bwzfXH dIxFno sc-kGXeez bLOzZQ"]'
+        this.cancelConfirmationButton = '[class="sc-bwzfXH ewzfNn sc-kGXeez bLOzZQ"]'
+        this.testComment = 'This is TEST comment'
+        this.editedComment = 'This is EDITED comment'
+    };
+    
+    getIssueCommentModal() {
+        return cy.get(this.issueCommentModal);
+    }
+
+    addComment() {
+        cy.get(this.issueCommentModal)
+        cy.get(this.commentClass).click()
+        cy.get(this.commentPlaceholder).type(this.testComment)
+        cy.get(this.saveButton).click()
+        }
+
+    ensureIssueTestCommentIsVisible(){
+        cy.get(this.commentParentClass)
+        cy.get(this.issueCommentId).should('have.length', '2')
+        cy.get(this.commentParentClass).contains(this.testComment).should('be.visible')
+        }
+
+    editComment() {
+        cy.get(this.editButton).first().click()
+        cy.get(this.commentPlaceholder).click().clear().type(this.editedComment)
+        cy.get(this.saveButton).click()
+    }
+
+    ensureIssueEditCommentIsVisible() {
+        cy.get(this.commentParentClass)
+        cy.get(this.issueCommentId).should('have.length', '2')
+        cy.get(this.commentParentClass).contains(this.editedComment).should('be.visible')
+        cy.get(this.saveButton).should('not.exist')
+    }   
+
+    deleteComment() {
+        cy.get(this.deleteButton).first().click()
+        cy.get(this.deleteConfirmationButton).click()
+    }
+    ensureIssueCommentIsDeleted() {
+        cy.get(this.commentParentClass)
+        cy.get(this.issueCommentId).should('have.length', '1')
+        cy.get(this.commentParentClass).contains(this.editedComment).should('not.exist')
+    }
+
+    }
+
+
+//export default new IssueModal();
+export default new IssueComment();
+
